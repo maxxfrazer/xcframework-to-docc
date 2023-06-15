@@ -8,10 +8,12 @@ xcframework_path=$1
 frameworkname="$(basename "$xcframework_path" | cut -f 1 -d '.')"
 xcoderoot=docc_builder
 doccpath=$2
+framework_platform_path=${3:-ios-arm64_armv7}
 pbxproj_path="$xcoderoot/$frameworkname.xcodeproj/project.pbxproj"
 
 # Set the source and destination directories
-src_dir="$xcframework_path/ios-arm64_armv7/$frameworkname.framework/Headers"
+src_dir="$xcframework_path/$framework_platform_path/$frameworkname.framework/Headers"
+src_dir=$(readlink -f "$src_dir")
 dest_dir="$xcoderoot/$frameworkname"
 
 # Replace all instances of "FRAMEWORK_NAME" with the new value
